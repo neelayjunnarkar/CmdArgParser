@@ -3,6 +3,7 @@
 #include <vector>
 #include <functional>
 #include <sstream>
+#include <algorithm>
 
 class Parser {
 public:
@@ -13,6 +14,8 @@ public:
 	void add_arg(std::string longhand, std::vector<Constraint> constraints={}, std::string shorthand="", bool required = false, std::string description="");
 		
 	bool check_validity(std::string *const err_msg = nullptr);
+
+	void parse(std::string *const err_msg = nullptr);
 
 	template <typename T>
 	T get(std::string hand) const;
