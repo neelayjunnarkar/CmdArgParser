@@ -8,7 +8,7 @@ Parser.o: Parser.cpp
 	$(CC) -c $(CFLAGS) Parser.cpp -o Parser.o
 
 all: $(OBJS)
-	$(CC) $(CFLAGS) main.cpp -o $(TARGET) 
+	$(CC) $(CFLAGS) main.cpp $(OBJS) -o $(TARGET) 
 
 clean:
 	rm *~ *.un *.o *.gch *.exe
