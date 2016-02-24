@@ -11,14 +11,21 @@ void Parser::add_arg(std::string longhand, std::vector<Constraint> constraints, 
 }
 
 bool Parser::check_validity(std::string *const err_msg) {
+	/*
+	 * Finds iterator of next string in _raw_args that is an argument (has - or --)
+	 */
+	auto next_arg = [&](std::vector<std::string>::iterator arg_it) {
+		
+	};
+
 	for (Arg &arg : _args) {
-		auto it = std::find(_raw_args.begin(), _raw_args.end(), "--"+arg.longhand);	
-		if (it != _raw_args.end()) {
-						
+		auto arg_it = std::find(_raw_args.begin(), _raw_args.end(), "--"+arg.longhand);	
+		if (arg_it != _raw_args.end()) {
+								
 			continue;
 		}
-		it = std::find(_raw_args.begin(), _raw_args.end(), "-"+arg.shorthand);
-		if (it != _raw_args.end()) {
+		arg_it = std::find(_raw_args.begin(), _raw_args.end(), "-"+arg.shorthand);
+		if (arg_it != _raw_args.end()) {
 
 			continue;
 		}

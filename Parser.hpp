@@ -12,7 +12,12 @@ public:
 	Parser(int argc, char **argv);
 
 	void add_arg(std::string longhand, std::vector<Constraint> constraints={}, std::string shorthand="", bool required = false, std::string description="");
-		
+
+	/*
+	 * Check if:
+	 * 	Arguments pass constraints
+	 *	All required arguments are there
+	 */
 	bool check_validity(std::string *const err_msg = nullptr);
 
 	void parse(std::string *const err_msg = nullptr);

@@ -1,6 +1,5 @@
 CC     = g++
 CFLAGS = -std=c++14
-LFLAGS = 
 OBJS   = Parser.o
 TARGET = target
 
@@ -11,4 +10,4 @@ all: $(OBJS)
 	$(CC) $(CFLAGS) main.cpp $(OBJS) -o $(TARGET) 
 
 clean:
-	rm *~ *.un *.o *.gch *.exe
+	rm *un~ *~ *.un *.o *.gch *.exe
