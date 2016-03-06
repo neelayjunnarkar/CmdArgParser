@@ -5,44 +5,22 @@
 #include <sstream>
 #include <algorithm>
 
+#include "Constraints.hpp"
+
 class Parser {
 public:
-	using Constraint = std::function<bool(std::vector<std::string>)>;
-
 	Parser(int argc, char **argv);
-
-	void add_arg(std::string longhand, std::vector<Constraint> constraints={}, std::string shorthand="", bool required = false, std::string description="");
 
 	/*
 	 * Check if:
 	 * 	Arguments pass constraints
 	 *	All required arguments are there
 	 */
-	bool check_validity(std::string *const err_msg = nullptr);
+	bool check_validity();
 
-	void parse(std::string *const err_msg = nullptr);
+	void parse();
 
-	template <typename T>
-	T get(std::string hand) const;
-    
-	template <typename T>
-	T get_shorthand(std::string shorthand) const;
-    
-	template <typename T>
-	T get_longhand(std::string longhand) const;
-     
 	std::string get_raw() const;
 private:
-
-	struct Arg {
-		std::vector<Constraint> constraints;
-		std::string shorthand;
-		std::string longhand;
-		std::string description;
-		bool required;        
-		std::vector<std::string> arguments; //arguments to the argument to the program
-	};
-
 	std::vector<std::string> _raw_args;
-	std::vector<Arg> _args;
 };

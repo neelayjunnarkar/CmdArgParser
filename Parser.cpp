@@ -6,10 +6,6 @@ Parser::Parser(int argc, char **argv) {
 	}
 }
 
-void Parser::add_arg(std::string longhand, std::vector<Constraint> constraints, std::string shorthand, bool required, std::string description) {
-	_args.push_back(Arg{constraints, shorthand, longhand, description, required, {}});
-}
-
 bool Parser::check_validity(std::string *const err_msg) {
 	/*
 	 * Finds iterator of next string in _raw_args that is an argument (has - or --)
@@ -40,21 +36,6 @@ void Parser::parse(std::string *const err_msg) {
 
 }
 
-template <typename T>
-T Parser::get(std::string hand) const {
-	return T();
-}
-
-template <typename T>
-T Parser::get_shorthand(std::string shorthand) const {
-	return T();
-}
-
-template <typename T>
-T Parser::get_longhand(std::string longhand) const {
-	return T();
-}
-     
 std::string Parser::get_raw() const {
 	if (_raw_args.size() == 0)
 		return "";

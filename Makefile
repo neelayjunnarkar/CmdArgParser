@@ -10,4 +10,4 @@ all: $(OBJS)
 	$(CC) $(CFLAGS) main.cpp $(OBJS) -o $(TARGET) 
 
 clean:
-	rm *un~ *~ *.un *.o *.gch *.exe
+	rm *.o *.gch *.exe
