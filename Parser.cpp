@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-_Arg(const std::vector<std::string> &name, const std::string &desc) :
+Parser::_Arg::_Arg(const std::vector<std::string> &name, const std::string &desc) :
 	name{name},
 	desc{desc} { 
 }
