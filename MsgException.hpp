@@ -2,12 +2,18 @@
 #define MSGEXCEPTION_HPP
 
 #include <exception>
+#include <cstring>
 
 struct MsgException : public std::exception {
-	std::string msg;
-	MsgException(std::string msg) : msg{msg} {};
-	~MsgException() throw() {};
-	const char* what() const throw() { return msg.c_str(); }; 
+	char *msg;
+	MsgException(const char *_msg) {
+		msg = new char[strlen(_msg)];
+		strcpy(msg, _msg);
+	};
+	~MsgException() throw() {
+		delete[] msg;
+	};
+	const char* what() const throw() { return msg; }; 
 };
 
 #endif
