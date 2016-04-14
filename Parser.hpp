@@ -32,6 +32,12 @@ private:
 		Arg(std::string lh, std::string sh, std::string desc);
 		Arg(std::string lh, std::string sh, std::vector<Constraint> cstrts, bool req, std::string desc);
 		std::vector<T> arg_vals;
+		enum class Type {
+			ERROR	   = 0b000,
+			POSITIONAL = 0b001,
+			BOOL	   = 0b010,
+			LABELED    = 0b100	
+		} type;
 	};
 
 	std::vector<std::string> _raw_args;

@@ -10,23 +10,25 @@ Parser::Arg<T>::Arg(std::string internal_id, std::vector<int> poss, std::vector<
 	_Arg({internal_id}, desc),
 	poss{new std::vector<int>{poss}},
 	cstrts{new std::vector<Constraint>{cstrts}},
-	req{new bool{req}} {      
+	req{new bool{req}},
+	type{Type::POSITIONAL} {      
 }
 template <typename T>
 Parser::Arg<T>::Arg(std::string lh, std::string sh, std::string desc) :
 	_Arg({lh, sh}, desc),
 	poss{nullptr},
 	cstrts{nullptr},
-	req{nullptr} {
+	req{nullptr},
+	type{Type::BOOL} {
 }
 template <typename T>
 Parser::Arg<T>::Arg(std::string lh, std::string sh, std::vector<Constraint> cstrts, bool req, std::string desc) :
 	_Arg({lh, sh}, desc),
 	poss{nullptr},
 	cstrts{new std::vector<Constraint>{cstrts}},
-	req{new std::vector<Constraint>{req}} {
+	req{new std::vector<Constraint>{req}},
+	type{Type::LABELED} {
 }
-
 
 Parser::Parser(int argc, char **argv) {
 	for (int i = 1; i < argc; ++i) {
