@@ -28,8 +28,18 @@ private:
 		std::vector<int> *poss;
 		std::vector<Constraint> *cstrts;
 		bool *req;
+		/*
+		 * Positional: arguments have no label, and must be at certain indices where <exe> is index 0
+		 */
 		Arg(std::string internal_id, std::vector<int> poss, std::vector<Constraint> cstrts, bool req, std::string desc);
+		/*
+		 * Bool: optional arguments 
+		 * eg. "-std=c++14" for g++
+		 */
 		Arg(std::string lh, std::string sh, std::string desc);
+		/*
+		 * Labeled: arguments like positional, but not tied to certain indices; values follow label instead
+		 */
 		Arg(std::string lh, std::string sh, std::vector<Constraint> cstrts, bool req, std::string desc);
 		std::vector<T> arg_vals;
 		enum class Type {
