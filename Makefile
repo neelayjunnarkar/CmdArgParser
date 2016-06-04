@@ -1,18 +1,24 @@
-CC     = g++
-CFLAGS = -std=c++14
-OBJS   = Parser.o main.o
-TARGET = target
+BIN := target
+CC := g++
+CFLAGS := -std=c++14 -c
 
-.PHONY: all
+SRC_DIR := src
+OBJ_DIR := obj
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+INCLUDE_DIRECTORIES :=
+
+.PHONY: all clean
 
 all: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) 
-	 
-Parser.o: Parser.cpp
-	$(CC) -c $(CFLAGS) Parser.cpp -o Parser.o
+	$(CC) $(OBJS) -o $(BIN) 
 
-main.o: main.cpp
-	$(CC) -c $(CFLAGS) main.cpp -o main.o
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) $<  -o $@
 
 run: all
-	./$(TARGET)
+	./$(BIN)
+
+clean:
+	rm -f $(BIN) $(OBJS)
