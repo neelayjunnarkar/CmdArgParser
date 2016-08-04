@@ -63,7 +63,8 @@ public:
 	bool valid() const;
 
 	void parse();
-
+	
+	std::vector<std::string> get(const std::string &name) const;
 	std::string get_as_string() const;
 };
 

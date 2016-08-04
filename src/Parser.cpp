@@ -47,7 +47,23 @@ bool Parser::valid() const {
 }
 
 void Parser::parse() {
-    
+	for (const std::string &raw_arg : _raw_args) {
+		for (const _Arg *const arg : _args) {
+			if ((*(Arg*)(arg)).type == Arg::Type::BOOL) {
+				if (raw_arg == "--"+(*arg).name[_Arg::lh] || raw_arg == "-"+(*arg).name[_Arg::sh]) {
+					((Arg*)arg)->arg_vals.push_back("1");
+					break;
+				}
+			}
+		}
+	}    
+	for (const _Arg *const arg : _args) {
+		if ((*(Arg*)(arg)).type == Arg::Type::BOOL) {
+			if (((Arg*)arg)->arg_vals.empty()) {
+				((Arg*)arg)->arg_vals.push_back("0");
+			}
+		}
+	}
 }
 
 std::string Parser::get_as_string() const {
@@ -60,6 +76,17 @@ std::string Parser::get_as_string() const {
 		list += std::string{" "} + _raw_args[i];
 	}
 	return list;
+}
+
+std::vector<std::string> Parser::get(const std::string &name) const {
+	for (const _Arg *const arg : _args) {
+		for (const std::string &arg_name : ((Arg*)arg)->name) {
+			if (name == arg_name) {
+				return ((Arg*)arg)->arg_vals; 
+			}
+		}
+	}
+	return {};
 }
 
 void Parser::set_bool(std::string lh, std::string sh, std::string desc) {
