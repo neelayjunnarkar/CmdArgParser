@@ -1,28 +1,5 @@
 #include "Parser.hpp"
 
-Parser::_Arg::_Arg(const std::vector<std::string> &name, const std::string &desc) :
-	name{name},
-	desc{desc} { 
-}
-		
-Parser::Arg::Arg(std::string internal_id, std::vector<int> poss, bool req, std::string desc) :
-	_Arg({internal_id}, desc),
-	poss{new std::vector<int>{poss}},
-	req{new bool{req}},
-	type{Type::POSITIONAL} {      
-}
-Parser::Arg::Arg(std::string lh, std::string sh, std::string desc) :
-	_Arg({lh, sh}, desc),
-	poss{nullptr},
-	req{nullptr},
-	type{Type::BOOL} {
-}
-Parser::Arg::Arg(std::string lh, std::string sh, int count, bool req, std::string desc) :
-	_Arg({lh, sh}, desc),
-	poss{nullptr},
-	type{Type::LABELED} {
-}
-
 Parser::Parser(int argc, char **argv) {
 	for (int i = 1; i < argc; ++i) {
 		_raw_args.push_back(std::string{argv[i]});
@@ -32,12 +9,10 @@ Parser::Parser(int argc, char **argv) {
 bool Parser::valid() const {
 	for (const std::string &raw_arg : _raw_args) {
 		bool is_valid = false;
-		for (const _Arg *const arg : _args) {
-			if ((*(Arg*)(arg)).type == Arg::Type::BOOL) {
-				if (raw_arg == "--"+(*arg).name[_Arg::lh] || raw_arg == "-"+(*arg).name[_Arg::sh]) {
-					is_valid = true;
-					break;
-				}
+		for (const BoolArg &arg : _bool_args) {
+			if (raw_arg == "--"+arg.lh || raw_arg == "-"+arg.sh) {
+				is_valid = true;
+				break;
 			}
 		}
 		if (!is_valid)
@@ -48,19 +23,9 @@ bool Parser::valid() const {
 
 void Parser::parse() {
 	for (const std::string &raw_arg : _raw_args) {
-		for (const _Arg *const arg : _args) {
-			if ((*(Arg*)(arg)).type == Arg::Type::BOOL) {
-				if (raw_arg == "--"+(*arg).name[_Arg::lh] || raw_arg == "-"+(*arg).name[_Arg::sh]) {
-					((Arg*)arg)->arg_vals.push_back("1");
-					break;
-				}
-			}
-		}
-	}    
-	for (const _Arg *const arg : _args) {
-		if ((*(Arg*)(arg)).type == Arg::Type::BOOL) {
-			if (((Arg*)arg)->arg_vals.empty()) {
-				((Arg*)arg)->arg_vals.push_back("0");
+		for (BoolArg &arg : _bool_args) {
+			if (raw_arg == "--"+arg.lh || raw_arg == "-"+arg.sh) {
+				arg.value = true;
 			}
 		}
 	}
@@ -78,17 +43,13 @@ std::string Parser::get_as_string() const {
 	return list;
 }
 
-std::vector<std::string> Parser::get(const std::string &name) const {
-	for (const _Arg *const arg : _args) {
-		for (const std::string &arg_name : ((Arg*)arg)->name) {
-			if (name == arg_name) {
-				return ((Arg*)arg)->arg_vals; 
-			}
-		}
+bool Parser::get_bool(const std::string &name) {
+	for (const BoolArg &arg : _bool_args) {
+		if (name == arg.lh || name == arg.sh)
+			return arg.value;
 	}
-	return {};
+	return false;
 }
-
 void Parser::set_bool(std::string lh, std::string sh, std::string desc) {
-	_args.push_back(new Arg{lh, sh, desc});
+	_bool_args.push_back(BoolArg{lh, sh, false, desc});
 }

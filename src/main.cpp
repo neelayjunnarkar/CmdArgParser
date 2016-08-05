@@ -1,7 +1,6 @@
 #include "Parser.hpp"
 #include <string>
-#include <sstream>
-
+#include <iostream>
 int main(int argc, char **argv) {
 	std::cout << "Passing arguments to parser... " << std::endl;
 	Parser parser(argc, argv);	
@@ -12,8 +11,8 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	parser.parse();
-	if(std::stol(parser.get("run").front())) {
-		std::cout << "Arguments passed include \'run\'" << std::endl;
+	if (parser.get_bool("run")) {
+		std::cout << "RUNNING" << std::endl;
 	}
 	return 0;
 }
