@@ -9,15 +9,23 @@ private:
 	struct BoolArg {
 		std::string lh; //long hand
 		std::string sh; //short hand
-		bool value = false; //should change to true if appears in command line arguments
 		std::string desc = "";
+		bool value = false; //should change to true if appears in command line arguments
+	};
+	struct PosArg {
+		std::string id;
+		int first;
+		int count;
+		std::string desc = "";
+		std::vector<std::string> values = {};
 	};
 	std::vector<BoolArg> _bool_args;
+	std::vector<PosArg> _pos_args;
 	std::vector<std::string> _raw_args;
 public:
 	Parser(int argc, char **argv);
 
-	void set_positional(std::string internal_id, std::vector<int> poss, bool req, std::string desc);
+	void set_positional(std::string internal_id, int first, int count, std::string desc);
 	void set_bool(std::string lh, std::string sh, std::string desc);
 	void set_labeled(std::string lh, std::string sh, bool req, std::string desc);
 	/*
@@ -30,6 +38,8 @@ public:
 	void parse();
 	
 	bool get_bool(const std::string &name);
+	std::vector<std::string> get_positional(const std::string &name);
+
 	std::string get_as_string() const;
 };
 
