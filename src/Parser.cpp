@@ -3,10 +3,17 @@
 
 #include "Parser.hpp"
 
-Parser::Parser(int argc, char **argv) {
+Parser::Parser(std::vector<std::string> args):
+	_raw_args(args) {
+
+}
+
+Parser Parser::from_raw(int argc, char **argv) {
+	std::vector<std::string> strs;
 	for (int i = 1; i < argc; ++i) {
-		_raw_args.push_back(std::string{argv[i]});
+		strs.push_back(std::string{argv[i]});
 	}
+	return Parser(strs);
 }
 
 bool Parser::valid() const {
@@ -75,6 +82,7 @@ bool Parser::get_bool(const std::string &name) {
 	}
 	return false;
 }
+
 std::vector<std::string> Parser::get_positional(const std::string &name) {
 	for (const PosArg &arg : _pos_args) {
 		if (name == arg.id)
@@ -82,9 +90,11 @@ std::vector<std::string> Parser::get_positional(const std::string &name) {
 	}
 	return {};
 }
+
 void Parser::set_bool(std::string lh, std::string sh, std::string desc) {
 	_bool_args.push_back(BoolArg{lh, sh, desc});
 }
+
 void Parser::set_positional(std::string internal_id, int first, int count, std::string desc) {
-	_pos_args.push_back(PosArg{internal_id, first-1, count, desc});
+	_pos_args.push_back(PosArg{internal_id, first, count, desc});
 }

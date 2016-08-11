@@ -2,10 +2,10 @@
 #include <string>
 #include <iostream>
 int main(int argc, char **argv) {
-	Parser parser(argc, argv);	
+	Parser parser = Parser::from_raw(argc, argv);	
 
 	parser.set_bool("run", "r", "");
-	parser.set_positional("coordinates", 1, 2, "");
+	parser.set_positional("coordinates", 0, 2, "");
 
 
 	std::cout << "Parser recieved: " << parser.get_as_string() << std::endl;

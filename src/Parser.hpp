@@ -19,11 +19,23 @@ private:
 		std::string desc = "";
 		std::vector<std::string> values = {};
 	};
+	struct LabeledArg {
+		std::string lh;
+		std::string sh;
+		int count;
+		std::string desc = "";
+		std::vector<std::string> values = {};
+	};
 	std::vector<BoolArg> _bool_args;
 	std::vector<PosArg> _pos_args;
+	std::vector<LabeledArg> _labeled_args;
 	std::vector<std::string> _raw_args;
+
+	Parser(std::vector<std::string> args);
 public:
-	Parser(int argc, char **argv);
+	//Use for when data to parse taken directly, no alterations
+	//Assumes that argv[0] is the executable
+	static Parser from_raw(int argc, char **argv);
 
 	void set_positional(std::string internal_id, int first, int count, std::string desc);
 	void set_bool(std::string lh, std::string sh, std::string desc);
@@ -39,7 +51,7 @@ public:
 	
 	bool get_bool(const std::string &name);
 	std::vector<std::string> get_positional(const std::string &name);
-
+	std::vector<std::string> get_labeled(const std::string &name);
 	std::string get_as_string() const;
 };
 
