@@ -1,5 +1,5 @@
 BIN := target
-CC := g++
+CC := g++-6
 CFLAGS := -std=c++14 -c
 
 SRC_DIR := src

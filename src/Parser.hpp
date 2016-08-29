@@ -23,8 +23,10 @@ private:
 		std::string lh;
 		std::string sh;
 		int count;
+		bool req = false;
 		std::string desc = "";
 		std::vector<std::string> values = {};
+		int first; //position of lh or sh
 	};
 	std::vector<BoolArg> _bool_args;
 	std::vector<PosArg> _pos_args;
@@ -39,13 +41,13 @@ public:
 
 	void set_positional(std::string internal_id, int first, int count, std::string desc);
 	void set_bool(std::string lh, std::string sh, std::string desc);
-	void set_labeled(std::string lh, std::string sh, bool req, std::string desc);
+	void set_labeled(std::string lh, std::string sh, int count, bool req, std::string desc);
 	/*
 	* Check if:
 	* 	Arguments pass constraints
 	*	All required arguments are there
 	*/
-	bool valid() const;
+	bool valid();
 
 	void parse();
 	
