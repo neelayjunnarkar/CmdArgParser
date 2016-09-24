@@ -8,9 +8,9 @@ Parser::Parser(std::vector<std::string> args):
 
 }
 
-Parser Parser::from_raw(int argc, char **argv) {
+Parser Parser::from_env(int argc, char **argv) {
 	std::vector<std::string> strs;
-	for (int i = 0; i < argc; ++i) {
+	for (int i = 1; i < argc; ++i) {
 		strs.push_back(std::string{argv[i]});
 	}
 	return Parser(strs);
@@ -51,7 +51,7 @@ bool Parser::valid() {
 		for (LabeledArg &arg : _labeled_args) {
 			if (_raw_args[i] == "--"+arg.lh || _raw_args[i] == "-"+arg.sh) {
 				if (is_valid) { //already a valid bool arg. Cannot overlap
-					std::cout << "Error: labeled arg repeat" << std::endl;
+					std::cout << "Error: labeled arg repeat for " << _raw_args[i] << " " << is_valid << std::endl;
 					return false;
 				}
 				if (i+arg.count >= _raw_args.size()) {
@@ -62,7 +62,7 @@ bool Parser::valid() {
 				arg.first = i;
 				break;
 			}
-			if (i >= arg.first+1 && i < arg.first + arg.count + 1) {
+			if (arg.first != -1 && i >= arg.first+1 && i < arg.first + arg.count + 1) {
 				is_valid = true;
 			}			
 		}

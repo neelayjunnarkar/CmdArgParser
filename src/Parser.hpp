@@ -26,7 +26,7 @@ private:
 		bool req = false;
 		std::string desc = "";
 		std::vector<std::string> values = {};
-		int first; //position of lh or sh
+		int first = -1; //position of lh or sh
 	};
 	std::vector<BoolArg> _bool_args;
 	std::vector<PosArg> _pos_args;
@@ -35,9 +35,10 @@ private:
 
 	Parser(std::vector<std::string> args);
 public:
-	//Use for when data to parse taken directly, no alterations
-	//Assumes that argv[0] is the executable
-	static Parser from_raw(int argc, char **argv);
+	// Use for when data to parse taken directly, no alterations
+	// Assumes that argv[0] is the executable
+	// Ignores argv[0]
+	static Parser from_env(int argc, char **argv);
 
 	void set_positional(std::string internal_id, int first, int count, std::string desc);
 	void set_bool(std::string lh, std::string sh, std::string desc);
