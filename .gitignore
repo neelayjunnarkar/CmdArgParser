@@ -5,4 +5,4 @@ target
 *.o
 *.exe
 *.gch
-combine_files
+*combine_files*
