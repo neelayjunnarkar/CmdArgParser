@@ -1,7 +1,7 @@
-#CmdArgParser#
+# CmdArgParser
 C++ utilities for easy parsing of and retrieval of values from arguments to the program by Neelay Junnarkar
 
-##Boolean Arguments##
+## Boolean Arguments
 
 * Flags—parser checks whether the flag is passed or is not, and will return true and false respectively
 * Are optional
@@ -34,7 +34,7 @@ or
 ./executable --run
 ```
 
-##Labeled Arguments##
+## Labeled Arguments
 
 * Series of values of specified count **after** a label
 * Can be made either optional **or** required
@@ -72,7 +72,7 @@ or
 ```
 Can use any mix of long and short hand
 
-##Positional Arguments##
+## Positional Arguments
 
 * A series of values of specified count at a specific index (by argument) in the input.
 * Do not have a label when passing the arguments, but do have an internal ID to be used by the program
@@ -103,7 +103,7 @@ Example using positional arguments:
 
 Note: May be removed in a future version in total favor of labeled arguments.
 
-##Full Example##
+## Full Example
 
 ```
 Parser parser = Parser::from_env(argc, argv);	
